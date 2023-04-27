@@ -9,6 +9,11 @@
     {{- with .Resources.GetMatch "featured-image-preview" -}}
         {{- $image = .RelPermalink -}}
     {{- end -}}
+
+    {{- if and (eq $image nil) (ne (.Scratch.Get "randomImage") nil) -}}
+        {{- $image = .Scratch.Get "randomImage" -}}
+    {{- end -}}
+
     {{- with $image -}}
         <div class="featured-image-preview">
             <a href="{{ $.RelPermalink }}">

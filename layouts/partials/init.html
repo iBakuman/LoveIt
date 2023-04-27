@@ -27,5 +27,17 @@
 
 {{- .Scratch.Set "params" $params -}}
 {{- .Scratch.Set "this" dict -}}
+{{- .Scratch.Set "tabs-id" 1 -}}
+
+{{- /*  random image config  */ -}}
+{{- $randomImageConf := $params.randomImage -}}
+{{- if eq $randomImageConf.enable true -}}
+    {{- $siteResourceImages := resources.Match (printf "%s" ($randomImageConf.src | safeURL)) -}}
+    {{- $siteResourceImagesLen := len $siteResourceImages -}}
+    {{- if gt $siteResourceImagesLen 0 -}}
+        {{- $imageIdx := index (seq 0 (sub $siteResourceImagesLen 1) | shuffle) 0 -}}
+        {{- $.Scratch.Set "randomImage" (index $siteResourceImages $imageIdx) -}}
+    {{- end -}}
+{{- end -}}
 
 {{- partial "plugin/compatibility.html" . -}}

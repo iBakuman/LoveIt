@@ -68,6 +68,11 @@
         {{- with .Resources.GetMatch "featured-image" -}}
             {{- $image = .RelPermalink -}}
         {{- end -}}
+
+        {{- if and (eq $image nil) (ne (.Scratch.Get "randomImage") nil) -}}
+            {{- $image = .Scratch.Get "randomImage" -}}
+        {{- end -}}
+
         {{- with $image -}}
             <div class="featured-image">
                 {{- dict "Src" . "Title" $.Description "Resources" $.Resources | partial "plugin/img.html" -}}
